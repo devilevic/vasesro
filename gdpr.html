@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="cs" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VašeSRO | Informace o zpracování osobních údajů</title>
+  <meta name="description" content="Informace o zpracování osobních údajů (GDPR) – VašeSRO." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#0b1220">
+
+  <style>
+    /* Page-only polish */
+    .legal-wrap{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .legal-wrap{ grid-template-columns: 1fr; }
+    }
+
+    .legal-card{
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+    }
+    html[data-theme="light"] .legal-card{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.10);
+    }
+
+    .legal-intro{
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .qa{
+      margin-top: 14px;
+      display: grid;
+      gap: 12px;
+    }
+    .qa-item{
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    html[data-theme="light"] .qa-item{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.08);
+    }
+    .qa-item h3{
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+    .qa-item p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .qa-item p:last-child{ margin-bottom: 0; }
+
+    .badge-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 10px;
+    }
+    .badge{
+      font-size: 12px;
+      color: var(--muted2);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    html[data-theme="light"] .badge{
+      border-color: rgba(10,15,30,.12);
+      background: rgba(10,15,30,.03);
+    }
+
+    .contact-mini{
+      display:grid;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .contact-mini .row{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    html[data-theme="light"] .contact-mini .row{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.08);
+    }
+    .ico{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, rgba(22,163,74,.20), rgba(6,182,212,.18));
+      border: 1px solid rgba(255,255,255,.10);
+      flex: 0 0 40px;
+    }
+    .lbl{ font-size: 12px; color: var(--muted2); margin: 0; }
+    .val{ margin: 2px 0 0; font-weight: 700; letter-spacing: -0.01em; }
+    .val a{ color: inherit; text-decoration: none; }
+    .val a:hover{ text-decoration: underline; }
+
+    .sign{
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--muted2);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    html[data-theme="light"] .sign{
+      border-top-color: rgba(10,15,30,.10);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="VašeSRO - Úvod">
+        <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+      </a>
+
+      <nav class="nav" aria-label="Hlavní navigace" data-nav>
+        <button class="theme-toggle nav-item" type="button" aria-label="Přepnout motiv" data-theme-toggle>
+          <span class="theme-emoji" aria-hidden="true" data-theme-emoji>☀️</span>
+        </button>
+
+        <a href="index.html" class="nav-link">Úvodní strana</a>
+        <a href="sluzby.html" class="nav-link">SLUŽBY</a>
+        <a href="reference.html" class="nav-link">Reference</a>
+        <a href="kontakt.html" class="nav-link">Kontakty</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-label="Otevřít menu" aria-expanded="false" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero hero--inner">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="kicker">GDPR</p>
+          <h1>Informace o zpracování osobních údajů</h1>
+          <p class="lead">
+            Záleží nám na ochraně osobních údajů a na jejich zabezpečení. Níže najdete přehledné informace
+            (formou otázek a odpovědí) v souladu s nařízením EU 2016/679 (GDPR).
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="kontakt.html">Kontakt</a>
+            <a class="btn ghost" href="sluzby.html">Služby</a>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Ilustrační obrázek">
+          <div class="img-placeholder">
+            <img
+              src="assets/img/gdpr.webp"
+              alt="Založení SRO pro lékaře"
+              style="border-radius: 8px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="hero-glow" aria-hidden="true"></div>
+    </section>
+
+    <section class="section">
+      <div class="container legal-wrap">
+        <!-- Main content -->
+        <article class="legal-card" aria-label="GDPR informace">
+          <p class="legal-intro">
+            Tento dokument shrnuje, jakým způsobem společnost Vaše SRO, s.r.o. zpracovává osobní údaje,
+            jaké jsou účely zpracování, kdo k údajům může mít přístup, jak dlouho je uchováváme
+            a jaká práva můžete uplatnit.
+          </p>
+
+          <div class="qa">
+            <div class="qa-item">
+              <h3>1) Kdo je správcem / zpracovatelem osobních údajů?</h3>
+              <p>
+                Správcem (resp. zpracovatelem) osobních údajů je Vaše SRO s.r.o.,
+                Třeboňská 530/2, Praha 4 – Michle, 140 00, IČO: 286 35 353.
+                Korespondenční adresa: Na Střelnici 343/48, 779 00 Olomouc.
+              </p>
+              <p>
+                Pro klienty může společnost vystupovat jako zpracovatel, není-li ve smlouvě stanoveno jinak.
+                Společnost nemá ustanoveného pověřence pro ochranu osobních údajů.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>2) Proč údaje zpracováváme a pro jaké účely?</h3>
+              <p>
+                Údaje zpracováváme zejména za účelem uzavření a plnění smlouvy, správy smluvního vztahu
+                a pro jednání před uzavřením či změnou smlouvy, které probíhá na základě vašeho zájmu o spolupráci.
+              </p>
+              <p>
+                Rozsah zpracování odpovídá tomu, co je nezbytné pro poskytování služeb
+                (účetní a ekonomické činnosti, související smluvní agenda, poradenství při prodeji/koupi praxe,
+                zakládání s.r.o. a další podpůrné činnosti vyžadované legislativou).
+              </p>
+              <p>
+                Poskytnutí údajů je dobrovolné, ale typicky nezbytné pro uzavření a správu smlouvy.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>3) Jaké máme oprávněné zájmy?</h3>
+              <p>
+                Oprávněným zájmem je informovat vás o novinkách souvisejících se správou smlouvy
+                a nabídnout nové služby či produkty v oblastech našeho podnikání v České republice.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>4) Kdo má k osobním údajům přístup?</h3>
+              <p>
+                Přístup mají jmenovitě určení zaměstnanci, kteří plní smluvní úkoly vyplývající z uzavřené smlouvy.
+                Dále mohou mít přístup subjekty, vůči nimž plníme zákonné povinnosti
+                (např. finanční úřady, zdravotní pojišťovny, správa sociálního zabezpečení) – pouze v zákonném rozsahu.
+              </p>
+              <p>
+                Mimo zákonem stanovené případy osobní údaje dalším subjektům nesdělujeme.
+                Přijímáme organizační i technická opatření, aby se k údajům nedostala neoprávněná osoba.
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>5) Jak dlouho údaje uchováváme?</h3>
+              <p>
+                Údaje uchováváme v souladu s právními předpisy pro ukládání účetní a související dokumentace
+                (např. zákon o účetnictví a zákon o archivnictví a spisové službě). Po uplynutí zákonné doby
+                jsou údaje nevratně odstraněny (např. výmazem či skartací).
+              </p>
+            </div>
+
+            <div class="qa-item">
+              <h3>6) Jaká máte práva?</h3>
+              <p>
+                Můžete požádat o přístup k údajům, opravu nepřesných údajů, omezení zpracování,
+                výmaz, uplatnit námitku proti zpracování (včetně profilování/automatizovaného rozhodování),
+                a požádat o přenositelnost údajů (dle podmínek GDPR).
+              </p>
+              <p>
+                Pokud se domníváte, že dochází k porušení vašich práv, můžete podat stížnost u Úřadu pro ochranu osobních údajů
+                nebo v místě, kde došlo k údajnému porušení.
+              </p>
+              <p>
+                Práva můžete uplatnit písemně na korespondenční adrese nebo e-mailem.
+              </p>
+
+              <div class="badge-row" aria-label="Přehled práv">
+                <span class="badge">Přístup</span>
+                <span class="badge">Oprava</span>
+                <span class="badge">Omezení</span>
+                <span class="badge">Výmaz</span>
+                <span class="badge">Námitka</span>
+                <span class="badge">Přenositelnost</span>
+                <span class="badge">Stížnost</span>
+              </div>
+            </div>
+
+            <div class="qa-item">
+              <h3>7) Profilování a automatizované rozhodování</h3>
+              <p>
+                Při poskytování našich služeb profilování ani automatizované rozhodování nevyužíváme.
+              </p>
+              <p>
+                Máte-li k těmto informacím jakékoliv dotazy či připomínky, neváhejte se na nás obrátit.
+              </p>
+            </div>
+          </div>
+
+          <div class="sign">
+            <strong>Mgr. Jiří Kučera, MBA</strong><br>
+            jednatel společnosti
+          </div>
+        </article>
+
+        <!-- Sidebar contact card -->
+        <aside class="legal-card" aria-label="Kontaktní údaje GDPR">
+          <h2 style="margin:0 0 6px; font-size:18px;">Kontaktní údaje</h2>
+          <p class="legal-intro" style="margin-bottom: 6px;">
+            Pro uplatnění práv nebo dotazy k GDPR nás můžete kontaktovat:
+          </p>
+
+          <div class="contact-mini">
+            <div class="row">
+              <div class="ico" aria-hidden="true">👤</div>
+              <div>
+                <p class="lbl">Kontaktní osoba</p>
+                <p class="val">Lucie Vaiglová, MSc.</p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ico" aria-hidden="true">📞</div>
+              <div>
+                <p class="lbl">Telefon</p>
+                <p class="val"><a href="tel:+420602322633">+420 602 322 633</a></p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ico" aria-hidden="true">✉️</div>
+              <div>
+                <p class="lbl">E-mail</p>
+                <p class="val"><a href="mailto:vaiglova@vasesro.cz">vaiglova@vasesro.cz</a></p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="ico" aria-hidden="true">📍</div>
+              <div>
+                <p class="lbl">Korespondenční adresa</p>
+                <p class="val">Na Střelnici 343/48<br>779 00 Olomouc</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px;">
+            <a class="btn primary" href="kontakt.html" style="width:100%; text-align:center;">Přejít na kontakty</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-brand">
+          <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+          <div>
+            
+            <div class="footer-muted">Ekonomické a účetní služby.</div>
+          </div>
+        </div>
+        <div class="footer-muted">© 2026 All rights reserved. Všechna práva vyhrazena VašeSRO</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="gdpr.html">Informace o zpracování osobních údajů</a>
+        <a href="oznamovatele.html">Základní informace podle zákona o ochraně oznamovatelů</a>
+        <a href="vnitri-zasady.html">Systém vnitřních zásad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

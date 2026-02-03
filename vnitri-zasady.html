@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="cs" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VašeSRO | Systém vnitřních zásad</title>
+  <meta name="description" content="Systém vnitřních zásad, postupů a kontrolních opatření – VašeSRO." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#0b1220">
+
+  <style>
+    /* Page-only polish */
+    .legal-wrap{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .legal-wrap{ grid-template-columns: 1fr; }
+    }
+
+    .legal-card{
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+    }
+    html[data-theme="light"] .legal-card{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.10);
+    }
+
+    .legal-intro{
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .doc-meta{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .meta-row{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    html[data-theme="light"] .meta-row{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.08);
+    }
+    .ico{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, rgba(22,163,74,.20), rgba(6,182,212,.18));
+      border: 1px solid rgba(255,255,255,.10);
+      flex: 0 0 40px;
+    }
+    .lbl{ font-size: 12px; color: var(--muted2); margin: 0; }
+    .val{ margin: 2px 0 0; font-weight: 700; letter-spacing: -0.01em; }
+    .val a{ color: inherit; text-decoration: none; }
+    .val a:hover{ text-decoration: underline; }
+
+    .toc{
+      display:grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .toc a{
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    html[data-theme="light"] .toc a{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.08);
+    }
+    .toc a:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--shadow1);
+    }
+    .toc small{ color: var(--muted2); font-weight: 600; }
+
+    .prose{
+      margin-top: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+    .prose h2{
+      margin: 18px 0 8px;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+    .prose h3{
+      margin: 14px 0 6px;
+      color: var(--text);
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+    .prose p{ margin: 0 0 12px; }
+    .prose ul, .prose ol{
+      margin: 0 0 12px 18px;
+      padding: 0;
+    }
+    .prose code{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 10px;
+      padding: 2px 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: var(--text);
+    }
+    html[data-theme="light"] .prose code{
+      background: rgba(10,15,30,.04);
+      border-color: rgba(10,15,30,.10);
+    }
+
+    .btn-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .btn-row .btn{
+      flex: 1 1 auto;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="VašeSRO - Úvod">
+        <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+      </a>
+
+      <nav class="nav" aria-label="Hlavní navigace" data-nav>
+        <button class="theme-toggle nav-item" type="button" aria-label="Přepnout motiv" data-theme-toggle>
+          <span class="theme-emoji" aria-hidden="true" data-theme-emoji>☀️</span>
+        </button>
+
+        <a href="index.html" class="nav-link">Úvodní strana</a>
+        <a href="sluzby.html" class="nav-link">SLUŽBY</a>
+        <a href="reference.html" class="nav-link">Reference</a>
+        <a href="kontakt.html" class="nav-link">Kontakty</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-label="Otevřít menu" aria-expanded="false" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero hero--inner">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="kicker">AML / vnitřní předpis</p>
+          <h1>Systém vnitřních zásad</h1>
+          <p class="lead">
+            Systém vnitřních zásad, postupů a kontrolních opatření k naplnění povinností stanovených
+            zákonem č. 253/2008 Sb. (AML).
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#dokument">Zobrazit dokument</a>
+            <a class="btn ghost" href="kontakt.html">Kontakt</a>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Ilustrační obrázek">
+          <div class="img-placeholder">
+            <img
+              src="assets/img/terminology.webp"
+              alt="Založení SRO pro lékaře"
+              style="border-radius: 8px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="hero-glow" aria-hidden="true"></div>
+    </section>
+
+    <section class="section">
+      <div class="container legal-wrap">
+
+        <!-- Main document -->
+        <article class="legal-card" id="dokument" aria-label="Dokument">
+          <p class="legal-intro">
+            Níže je uveden dokument v plném znění. Pro přehlednost je stránka rozdělená do sekcí a doplněná rychlou navigací.
+          </p>
+
+          <div class="prose">
+            <p>Systém vnitřních zásad, postupů a kontrolních opatření k naplnění povinností stanovených zákonem č. 253/2008 Sb.</p>
+            <p>Název povinné osoby:   Vaše SRO, s.r.o., IČO:28635353</p>
+            <p>Sídlo:  Praha 4 – Michle, Třeboňská 530/2, PSČ 14000</p>
+            <p>Typ povinné osoby: dle § 2 odst 1 písm. e) AML Zákona – činnost účetních poradců, vedení( účetnictví, vedení daňové evidence</p>
+
+            <h2 id="zkratky">1. Seznam zkratek</h2>
+            <p>AML zákon zákon č. 253/2008 Sb., o některých opatřeních proti legalizaci výnosů z trestné činnosti a financování terorismu, ve znění pozdějších předpisů</p>
+            <p>AML vyhláška  vyhláška č. 67/2018 Sb., o některých požadavcích na systém vnitřních zásad, postupů a kontrolních opatření proti legalizaci výnosů z trestné činnosti a financování terorismu</p>
+            <p>AML/CFT prevence  Opatření v oblasti prevence legalizace výnosů z trestné činnosti a financování terorismu (Anti-Money Laundering / Countering the Financing of Terrorism)</p>
+            <p>ML/FT legalizace výnosů z trestné činnosti / financování terorismu (Money Laundering / Financing of Terrorism)</p>
+            <p>ČNB Česká národní banka</p>
+            <p>EHP Evropský hospodářský prostor</p>
+            <p>EU  Evropská unie</p>
+            <p>FAÚ Finanční analytický úřad</p>
+            <p>OPO oznámení podezřelého obchodu</p>
+            <p>PEP politicky exponovaná osoba (Politically Exposed Person)</p>
+            <p>sankční zákon zákon č. 69/2006 Sb., o provádění mezinárodních sankcí, ve znění pozdějších předpisů</p>
+            <p>SVZ systém vnitřních zásad, postupů a kontrolních opatření k naplnění povinností stanovených AML zákonem</p>
+            <p>ZHH zákon č. 186/2016, o hazardních hrách, ve znění pozdějších předpisů</p>
+
+            <h2 id="pojmy">2. Vymezení pojmů</h2>
+            <p>Financování terorismu Shromažďování nebo poskytnutí peněžních prostředků nebo jiného majetku s vědomím, že bude, byť i jen zčásti, použit ke spáchání trestného činu teroru, teroristického útoku, účasti na teroristické skupině, podpory a propagace terorismu nebo trestného činu vyhrožování teroristickým činem<sup>1</sup> nebo trestného činu, který má umožnit nebo napomoci spáchání takového trestného činu, nebo k podpoře osoby nebo skupiny osob připravujících se ke spáchání takového trestného činu.</p>
+            <p>Jednání vedoucí k poskytnutí odměny nebo odškodnění pachatele trestného činu teroru, teroristického útoku, účasti na teroristické skupině, podpory a propagace terorismu nebo trestného činu vyhrožování teroristickým činem nebo trestného činu, který má umožnit nebo napomoci spáchání takového trestného činu, nebo osoby blízké ve smyslu trestního zákona, nebo sbírání prostředků na takovou odměnu nebo na odškodnění.</p>
+            <p>Pro účely AML zákona i financování šíření zbraní hromadného ničení, kterým se rozumí shromažďování nebo poskytnutí peněžních prostředků nebo jiného majetku s vědomím, že bude, byť i jen zčásti, použit šiřitelem zbraní hromadného ničení nebo bude použit na podporu šíření takových zbraní v rozporu s požadavky mezinárodního práva.</p>
+            <p>Není rozhodující, zda ke shora uvedenému jednání došlo nebo má dojít zcela nebo zčásti na území ČR nebo v cizině.</p>
+            <p>Legalizace výnosů z trestné činnosti  Jednání sledující zakrytí nezákonného původu jakékoliv ekonomické výhody vyplývající z trestné činnosti s cílem vzbudit zdání, že jde o majetkový prospěch nabytý v souladu se zákonem; uvedené jednání spočívá zejména:</p>
+
+            <ul>
+              <li>v přeměně nebo převodu majetku s vědomím, že pochází z trestné činnosti, za účelem jeho utajení nebo zastření jeho původu nebo za účelem napomáhání osobě, která se účastní páchání takové činnosti, aby unikla právním důsledkům svého jednání,</li>
+              <li>v utajení nebo zastření skutečné povahy, zdroje, umístění, pohybu majetku nebo nakládání s ním nebo změny práv vztahujících se k majetku s vědomím, že tento majetek pochází z trestné činnosti</li>
+              <li>v nabytí, držení, použití majetku nebo nakládání s ním s vědomím, že pochází z trestné činnosti,</li>
+              <li>ve zločinném spolčení osob nebo jiné formě součinnosti za účelem jednání uvedeného výše.</li>
+            </ul>
+
+            <p>Není rozhodující, zda ke shora uvedenému jednání došlo nebo má dojít zcela nebo zčásti na území ČR nebo v cizině.</p>
+            <p>Neprůhledná vlastnická struktura</p>
+            <p>Obchod  Každé jednání povinné osoby jednající v tomto postavení s jinou osobou, pokud takové jednání směřuje k nakládání s majetkem této jiné osoby nebo k poskytnutí služby této jiné osobě.</p>
+            <p>Je-li obchod rozdělen na několik samostatných plnění, která spolu souvisí, je hodnotou obchodu součet těchto plnění.</p>
+            <p>Obchodní vztah  Smluvní vztah mezi povinnou osobou jednající v tomto postavení a jinou osobou, jehož účelem je nakládání s majetkem této jiné osoby nebo poskytování služeb této jiné osobě, jestliže je při vzniku smluvního vztahu s přihlédnutím ke všem okolnostem zřejmé, že bude trvající nebo bude obsahovat opakující se plnění.</p>
+            <p>Podezřelý obchod  Obchod uskutečněný za okolností vyvolávajících podezření ze snahy o legalizaci výnosů z trestné činnosti nebo podezření, že v obchodu užité prostředky jsou určeny k financování terorismu, nebo že obchod jinak souvisí nebo je spojen s financováním terorismu, anebo jiná skutečnost, která by mohla takovému podezření nasvědčovat.[Okolnosti, které vyvolávají podezření, mohou být zejména anomálie v chování klienta oproti jeho obvyklému chování nebo oproti chování množiny klientů obdobného typu.]</p>
+            <p>Politicky exponovaná osoba  a) fyzická osoba, která je nebo byla ve významné veřejné funkci s celostátním nebo regionálním významem, jako je zejména hlava státu, předseda vlády, vedoucí ústředního orgánu státní správy nebo jeho zástupce (náměstek, státní tajemník), člen parlamentu, člen řídícího orgánu politické strany, vedoucí představitel územní samosprávy, soudce nejvyššího soudu, ústavního soudu nebo jiného nejvyššího justičního orgánu, proti jehož rozhodnutí obecně (až na výjimky) nelze použít opravné prostředky, člen bankovní rady centrální banky, vysoký důstojník ozbrojených sil nebo sboru, člen nebo zástupce člena (je-li jím právnická osoba) statutárního orgánu obchodní korporace ovládané státem, velvyslanec nebo vedoucí diplomatické mise, anebo fyzická osoba, která obdobnou funkci vykonává nebo vykonávala v jiném státě, v orgánu EU anebo v mezinárodní organizaci,</p>
+            <p>b) fyzická osoba, která je:</p>
+            <p>1) osobou blízkou k osobě, která je uvedená v písmenu a),</p>
+            <p>2) která je společníkem nebo skutečným majitelem stejné právnické osoby, popřípadě svěřenského fondu, jako osoba uvedená v písmenu a), nebo je o ní povinné osobě známo, že je v jakémkoli jiném blízkém podnikatelském vztahu s osobou uvedenou v písmenu a),</p>
+            <p>3) která je skutečným majitelem právnické osoby, popřípadě svěřenského fondu, o kterých je povinné osobě známo, že byly vytvořeny ve prospěch osoby uvedené v písmenu a).</p>
+
+            <p>Průkaz totožnosti Doklad vydaný orgánem veřejné správy, v němž je uvedeno jméno a příjmení, datum narození a z něhož je patrná podoba, popřípadě i jiný údaj umožňující identifikovat osobu, která doklad předkládá, jako jeho oprávněného držitele.</p>
+
+            <p>Riziková země Země riziková z hlediska legalizace výnosů z trestné činnosti, financování terorismu nebo z hlediska šíření zbraní hromadného ničení. Seznam těchto zemí je stanoven nařízením Komise (EU) 2016/1675 ze dne 14. července 2016, kterým se směrnice (EU) 2015/849 Evropského parlamentu a Rady doplňuje o identifikaci vysoce rizikových třetích zemí se strategickými nedostatky, platném znění. V této souvislosti odkazujeme rovněž na seznam vysoce rizikových a dalších sledovaných jurisdikcí Finančního akčního výboru (FATF). Aktualizované seznamy lze nalézt na internetových stránkách FAÚ https://www.financnianalytickyurad.cz/mezinarodni-sankce/archiv-seznamu-sankce-a-rizikove-zeme.html.</p>
+
+            <p>Rizikově orientovaný přístup  (RBA z angl. „risk based approach“) je přístup k plnění AML/CFT opatření, který umožňuje povinné osobě přiměřeně alokovat zdroje (lidské i finanční) při efektivním řízení ML/TF rizik. Efektivní RBA je postaven na pečlivě provedeném hodnocení rizik (na jejich identifikaci, pochopení a posouzení). To umožňuje povinným osobám naplňování takových opatření ke zmírnění rizik, které je rizikům přiměřené.</p>
+
+            <p>Sankcionovaná osoba Osoba, vůči níž ČR uplatňuje mezinárodní sankce podle zákona o provádění mezinárodních sankcí.</p>
+
+            <p>Skutečný majitel  Fyzická osoba (případně několik fyzických osob), která má fakticky nebo právně možnost vykonávat přímo nebo nepřímo rozhodující vliv v právnické osobě nebo ve svěřenském fondu. Má se za to, že při splnění těchto podmínek skutečným majitelem je:</p>
+            <p>a) u obchodní korporace fyzická osoba,</p>
+            <p>1.   která sama nebo společně s osobami jednajícími s ní ve shodě disponuje více než 25 % hlasovacích práv této obchodní korporace nebo má podíl na základním kapitálu větší než 25 %,</p>
+            <p>2.   která sama nebo společně s osobami jednajícími s ní ve shodě ovládá osobu uvedenou v bodě 1,</p>
+            <p>3.   která má být příjemcem alespoň 25 % zisku této obchodní korporace, nebo</p>
+            <p>4.   která je členem statutárního orgánu, zástupcem právnické osoby v tomto orgánu anebo v postavení obdobném postavení člena statutárního orgánu, není-li skutečný majitel nebo nelze-li jej určit podle bodů 1 – 3,</p>
+
+            <p>b) u spolku, obecně prospěšné společnosti, společenství vlastníků jednotek, církve, náboženské společnosti nebo jiné právnické osoby podle zákona upravujícího postavení církví a náboženských společností fyzická osoba,</p>
+            <p>1.   která disponuje více než 25 % jejich hlasovacích práv,</p>
+            <p>2.   která má být příjemcem alespoň 25 % z jí rozdělovaných prostředků, nebo</p>
+            <p>3.   která je členem statutárního orgánu, zástupcem právnické osoby v tomto orgánu anebo v postavení obdobném postavení člena statutárního orgánu, není-li skutečný majitel nebo nelze-li jej určit podle bodu 1 nebo 2,</p>
+
+            <p>c) u nadace, ústavu, nadačního fondu nebo svěřenského fondu fyzická osoba nebo skutečný majitel fyzické osoby, která je v postavení,</p>
+            <p>1.   zakladatele,</p>
+            <p>2.   svěřenského správce,</p>
+            <p>3.   obmyšleného,</p>
+            <p>4.   osoby, v jejímž zájmu byla založena nebo působí nadace, ústav, nadační fond, nebo svěřenský fond, není-li určen obmyšlený, a</p>
+            <p>5.   osoby oprávněné k výkonu dohledu nad správou nadace, ústavu, nadačního fondu nebo svěřenského fondu.</p>
+
+            <p>Svěřenský fond  Svěřenský fond nebo jemu svou strukturou nebo funkcemi podobné zařízení řídící se právem jiného státu.</p>
+            <p>Třetí země  Stát, který není členským státem Evropské unie nebo státem tvořícím Evropský hospodářský prostor.</p>
+
+            <p>Země původu U klienta – fyzické osoby každý stát, jehož je tato osoba státním příslušníkem, a současně všechny další státy, ve kterých je přihlášena k pobytu delšímu než 1 rok, nebo k trvalému pobytu, pokud jsou povinné osobě známy,</p>
+            <p>u klienta – právnické osoby, která je zároveň povinnou osobou ve smyslu § 2 AML zákona, je zemí původu stát, ve kterém má své sídlo,</p>
+            <p>u klienta – právnické osoby, která není zároveň povinnou osobou ve smyslu § 2 AML zákona, je zemí původu stát, ve kterém má své sídlo, a současně všechny státy, v nichž má pobočku.</p>
+
+            <h2 id="3-identifikace-klienta">3. Identifikace klienta</h2>
+            <p>První identifikaci klienta, který je</p>
+            <p>fyzickou osobou, provede povinná osoba za fyzické účasti identifikovaného</p>
+            <p>právnickou osobou nebo svěřenským fondem, provede povinná osoba za fyzické přítomnosti fyzické osoby jednající za klienta.</p>
+
+            <h3 id="3-1-provadeni-identifikace">3.1 Provádění identifikace</h3>
+            <p>Povinná osoba provede identifikaci klienta:</p>
+            <p>nejpozději tehdy, kdy je zřejmé, že hodnota jednorázového obchodu překročí částku 1 000 EUR</p>
+            <p>vždy bez ohledu na shora stanovený limit, pokud jde o:</p>
+            <p>podezřelý obchod;</p>
+            <p>vznik obchodního vztahu</p>
+
+            <h3 id="3-1-1-zjistovani-identifikacnich-udaju">3.1.1 Zjišťování identifikačních údajů</h3>
+            <p>Povinná osoba v rámci provádění identifikace klienta, který je:</p>
+            <p>fyzická osoba nepodnikatel: zjistí všechna jména a příjmení, rodné číslo, a nebylo-li přiděleno, datum narození a pohlaví, dále místo narození, trvalý nebo jiný pobyt a státní občanství. Povinná osoba údaje zaznamená a ověří z průkazu totožnosti (jsou-li v něm uvedeny), dále zaznamená druh a číslo průkazu totožnosti, stát, popřípadě orgán, který jej vydal a dobu jeho platnosti. Současně povinná osoba ověří shodu podoby s vyobrazením v průkazu totožnosti;</p>
+            <p>fyzická osoba podnikatel: zjistí všechna jména a příjmení, rodné číslo, a nebylo-li přiděleno, datum narození a pohlaví, dále místo narození, trvalý nebo jiný pobyt a státní občanství. Povinná osoba údaje zaznamená a ověří z průkazu totožnosti, dále zaznamená druh a číslo průkazu totožnosti, stát, případně orgán, který jej vydal a dobu jeho platnosti. Současně povinná osoba ověří shodu podoby s vyobrazením v průkazu totožnosti. Dále je nutné zaznamenat název obchodní firmy, odlišující dodatek nebo další označení, sídlo a identifikační číslo osoby;</p>
+            <p>právnická osoba: zjistí základní identifikační údaje, kterými jsou obchodní firma nebo název včetně odlišujícího dodatku nebo dalšího označení, sídlo a identifikační číslo právnické osoby nebo obdobné číslo přidělované v zahraničí. Tyto identifikační údaje povinná osoba zaznamená a ověří z dokladu o existenci právnické osoby získaného z důvěryhodného zdroje, kterým je platný výpis z OR nebo jiného podnikatelského registru. Pokud je klientem právnická osoba zapsaná do českého obchodního rejstříku, povinná osoba si může buď klientem předložený výtisk výpisu z OR na portálu justice.cz ověřit, případně v rámci identifikace klienta příslušné údaje přímo z tohoto elektronického rejstříku stáhnout či zkontrolovat data uvedená klientem ústně či v písemném sdělení. Pokud se jedná o zahraniční právnickou osobu, platný výpis z podnikatelského registru musí být povinné osobě předložen v originále nebo kopii ověřené k tomu oprávněnou autoritou, není-li veřejně dostupný v obdobně ověřitelné podobě jako aktuálně výpisy z OR v ČR. Povinná osoba dále provede identifikaci fyzické osoby, která za právnickou osobu jedná v daném obchodu nebo při vzniku obchodního vztahu. U fyzických osob, které jsou členem statutárního orgánu této právnické osoby, avšak v rámci předmětného obchodu (nebo při vzniku obchodního vztahu) nejednají, se zjišťují a zaznamenávají údaje ke zjištění a ověření jejich totožnosti. Těmito údaji jsou ty, které lze zjistit z dostupných zdrojů, typicky z obchodního rejstříku, tj. zejména jméno, příjmení, datum narození a adresa. V případě, že statutárním orgánem klienta je jiná právnická osoba, povinná osoba ověří a zaznamená i její základní identifikační údaje, a údaje ke zjištění a ověření totožnosti fyzické osoby, která je členem statutárního orgánu této právnické osoby nebo kterou tato právnická osoba zmocnila, aby jí ve statutárním orgánu zastupovala.</p>
+            <p>svěřenský fond: zjistí jeho označení a identifikační údaje jeho svěřenského správce, v rozsahu, v jakém jsou stanoveny výše dle toho, zda se jedná o fyzickou či právnickou osobu.</p>
+
+            <p>Ke zjišťování jednotlivých údajů:</p>
+            <p>Požadované druhy průkazu totožnosti:</p>
+            <p>Občanský průkaz, cestovní pas, řidičský průkaz, průkaz o povolení pobytu cizince, zbrojní průkaz atd.</p>
+            <p>Uvedené druhy průkazů totožnosti lze akceptovat pouze v případě, že splňují tyto náležitosti:</p>
+
+            <ul>
+              <li>jde o platný a státem vydaný doklad;</li>
+              <li>nejedná se o průkaz poškozený nad obvyklou míru opotřebení (např. chybějící listy, slepovaný, přepisovaný, nečitelný apod.);</li>
+              <li>podobenka držitele na průkazu musí odpovídat skutečné podobě držitele a musí být natolik zřetelná nebo nepoškozená, aby podle ní bylo možné držitele s dostatečnou mírou pravděpodobnosti ztotožnit;</li>
+              <li>jde o doklad, ze kterého lze určit, který orgán kterého státu jej vydal;</li>
+              <li>jde o doklad, který z jakéhokoliv důvodu nevzbuzuje pochybnosti o své pravosti.</li>
+            </ul>
+
+            <p>Povinná osoba může pořizovat kopie nebo výpisy z předložených dokladů a zpracovávat takto získané informace pro účely AML zákona. Při pořizování kopie nebo výpisu z předložených dokladů není potřeba souhlasu jejich držitele.</p>
+
+            <p>Jestliže má povinná osoba při uzavírání obchodu (nebo obchodního vztahu) podezření, že klient nejedná svým jménem, nebo že zastírá, že jedná za třetí osobu, vyzve klienta, aby doložil oprávnění k tomuto jednání. Této výzvě je povinen každý vyhovět.</p>
+
+            <h3 id="3-1-2-zjistovani-pep">3.1.2 Zjišťování PEP</h3>
+            <p>V rámci identifikace klienta povinná osoba zjistí a zaznamená zda:</p>
+            <p>klient, fyzická osoba jednající za klienta v daném obchodu nebo obchodním vztahu a jeho skutečný majitel, pokud je povinné osobě znám, není PEP.</p>
+            <p>Zda je klient PEP lze zjistit:</p>
+
+            <ul>
+              <li>použitím některého ze systémů pro kontrolu a vyhledávání „rizikových“ klientů, které jsou založeny na veřejných zdrojích a které jako placenou službu poskytují některé specializované podnikatelské subjekty;</li>
+              <li>aktivní vyhledávací činností, např. prohledáváním otevřených zdrojů a dalších informací (média, internet, osobní znalost, případně také relevantní informace od jiných institucí);</li>
+              <li>prohlášením klienta při identifikaci na počátku obchodu (nebo obchodního vztahu); [současně s tím je vhodné klienta zavázat i k oznámení případné změny, pokud by nastala v době trvání obchodního vztahu]. Tato metoda je povinnou osobu preferovaná.</li>
+            </ul>
+
+            <h3 id="3-1-3-zjistovani-osob-na-ktere-se-vztahuji-mezinarodni-sankce">3.1.3 Zjišťování osob, na které se vztahují mezinárodní sankce</h3>
+            <p>V rámci identifikace klienta povinná osoba zjistí a zaznamená zda:</p>
+            <p>klient, fyzická osoba jednající za klienta v daném obchodu nebo obchodním vztahu a jeho skutečný majitel, pokud je povinné osobě znám, není sankciovanou osobou,</p>
+            <p>jiná osoba ve vlastnické nebo řídící struktuře klienta, pokud je povinné osobě známa, není sankcionovanou osobou.</p>
+            <p>Informace o aktuálních sankcích a sankcionovaných osobách a subjektech lze zjistit prostřednictvím:</p>
+            <p>sankční mapy EU, uveřejněné na webové stránce sanctionsmap.eu, a současně</p>
+            <p>z nařízení vlády č. 210/2008 Sb., k provedení zvláštních opatření k boji proti terorismu, ve znění pozdějších předpisů;</p>
+            <p>Ověřování se sankčními seznamy je nutné provést před uzavřením obchodu (nebo obchodního vztahu). U obchodního vztahu je třeba nastavit opatření, která umožní včas zjistit, že se klient stal sankcionovanou osobou kdykoliv v průběhu jeho trvání.</p>
+            <p>Při částečné shodě některého z identifikačních údajů s údaji osoby na závazném sankčním seznamu je do vyjasnění, zda se jedná či nejedná o tutéž osobu nutno postupovat, jako by šlo o plnou shodu a obchod do té doby neprovést. Při plné shodě osoby se sankčními seznamy může být v obchodu či obchodním vztahu pokračováno jen pokud to není v rozporu s právním předpisem, na jehož základě byla předmětná sankce uvalena. Obvykle se v praxi jedná o úplné zmrazení (zajištění) všech finančních prostředků klienta a zákaz přímého i nepřímého zpřístupnění jakýchkoli finančních prostředků nebo hospodářských zdrojů klientovi; případné výjimky může povolit FAÚ. Vždy se neprodleně podává OPO.</p>
+
+            <h3 id="3-2-dalsi-moznosti-provadeni-identifikace">3.2 Další možnosti provádění identifikace</h3>
+            <p>Kromě identifikace prováděné za fyzické přítomnosti klienta povinná osoba při provádění identifikace klienta využívá tyto další možnosti.</p>
+
+            <h3 id="3-2-1-identifikace-klienta-zastoupeneho-jinou-osobou">3.2.1 Identifikace klienta zastoupeného jinou osobou</h3>
+            <p>Provádí se identifikace jiné osoby (stejně jako identifikace fyzické osoby viz výše), nutné je předložení oprávnění k tomuto jednání (např. originálu plné moci nebo její kopie s úředně ověřeným podpisem zmocnitele, ledaže je oprávnění k jednání zjistitelné z veřejného rejstříku). Povinná osoba ověří, zda a v jakém rozsahu je tato osoba oprávněna za klienta jednat. Identifikace klienta zastoupeného zákonným zástupcem nebo opatrovníkem</p>
+
+            <h3 id="3-2-2-zprostredkovana-identifikace">3.2.2 Zprostředkovaná identifikace</h3>
+            <p>Na žádost klienta nebo povinné osoby může identifikaci klienta, případně fyzické osoby jednající jménem klienta, provést notář nebo kontaktní místo veřejné správy („CzechPOINT“), a to za fyzické přítomnosti identifikované fyzické osoby. Notář nebo kontaktní místo veřejné správy sepíšou o identifikaci listinu, která je veřejnou listinou, v níž jsou uvedeny náležitosti a připojeny přílohy podle § 10 odst. 2 a 3 AML zákona. Tato veřejná listina musí být uložena u povinné osoby před uskutečněním obchodu nebo uzavření obchodního vztahu.</p>
+
+            <h2 id="4-postupy-pro-provadeni-kontroly-klienta-stanovovani-rozsahu-kontroly-klienta-odpovidajici-riziku-legalizace-vynosu-z-trestne-cinnosti-a-financovani-terorismu">4. Postupy pro provádění kontroly klienta, stanovování rozsahu kontroly klienta odpovídající riziku legalizace výnosů z trestné činnosti a financování terorismu</h2>
+            <p>Povinná osoba provádí kontrolu klienta vždy:</p>
+
+            <ul>
+              <li>před uskutečněním obchodu mimo obchodní vztah při naplnění podmínek podle § 7 odst. 1 AML zákona, a to</li>
+              <li>nejpozději v době, kdy je zřejmé, že dosáhne hodnoty 15 000 EUR nebo vyšší</li>
+              <li>s politicky exponovanou osobou;</li>
+              <li>s osobou usazenou ve třetí zemi, kterou je třeba považovat za vysoce rizikovou na základě přímo použitelného předpisu Evropské unie nebo z jiného důvodu</li>
+              <li>s osobou identifikovanou postupem podle § 11 odst. 7 AML zákona;</li>
+              <li>při převodu peněžních prostředků v hodnotě 1 000 EUR nebo vyšší;</li>
+              <li>před uskutečněním podezřelého obchodu;</li>
+              <li>při vzniku obchodního vztahu (nejpozději před uskutečněním první transakce);</li>
+              <li>v době trvání obchodního vztahu, je-li to nezbytné na základě hodnocení rizik</li>
+            </ul>
+
+            <p>Je-li obchod rozdělen na několik samostatných plnění, je hodnotou obchodu součet těchto plnění, jestliže spolu tato souvisí. Zjevně spolu související plnění je tedy nutné sčítat a považovat za jeden obchod.</p>
+
+            <p>Kontrola klienta zahrnuje:</p>
+            <ul>
+              <li>získání a vyhodnocení informací o účelu a zamýšlené povaze obchodu nebo obchodního vztahu získání a vyhodnocení informací o povaze podnikání klienta;</li>
+              <li>zjištění totožnosti skutečného majitele a přijetí opatření k ověření jeho totožnosti z důvěryhodných zdrojů s tím, že v případě, že klient podléhá povinnosti zápisu do evidence skutečných majitelů nebo obdobného registru, povinná osoba ověří skutečného majitele vždy alespoň z této evidence nebo obdobného registru a jednoho dalšího zdroje, a zjištění, zda skutečný majitel není PEP nebo sankcionovanou osobou;</li>
+              <li>v případě, že je klientem právnická osoba nebo svěřenský fond, zjištění vlastnické a řídící struktury klienta, a zjištění, zda osoba v této struktuře není sankcionovanou osobou,</li>
+              <li>průběžné sledování obchodního vztahu včetně přezkoumávání obchodů prováděných v průběhu daného vztahu za účelem zjištění, zda obchody jsou v souladu s tím, co je povinné osobě známo o klientovi a jeho podnikatelském a rizikovém profilu;</li>
+              <li>přezkoumávání zdrojů peněžních prostředků nebo jiného majetku, kterého se obchod (nebo obchodní vztah) týká;</li>
+              <li>v rámci obchodního vztahu s PEP též přiměřená opatření ke zjištění původu jejího majetku.</li>
+            </ul>
+
+            <p>V souladu s § 9 odst. 3 AML zákona je přípustné kontrolu klienta omezit na rozsah potřebný k posouzení možného rizika ML/FT, a to v závislosti na typu klienta, obchodního vztahu, produktu nebo obchodu. Pro posouzení rizikovosti je však vždy třeba znát smysl a účel transakce, tak i vlastnickou strukturu a skutečného majitele klienta.</p>
+
+            <h3 id="4-1-ziskani-a-vyhodnoceni-informaci-o-ucelu-a-zamyslene-povaze-obchodu-nebo-obchodniho-vztahu-a-informaci-o-povaze-podnikani-klienta">4.1 Získání a vyhodnocení informací o účelu a zamýšlené povaze obchodu nebo obchodního vztahu a informací o povaze podnikání klienta</h3>
+            <p>Účelem získání těchto informací je vytvoření podmínek pro budoucí vyhodnocení, zda dílčí transakce vykazují znaky podezřelého obchodu.</p>
+
+            <h3 id="4-2-zjisteni-totoznosti-skutecneho-majitele-a-prijeti-opatreni-k-overeni-jeho-totoznosti">4.2 Zjištění totožnosti skutečného majitele a přijetí opatření k ověření jeho totožnosti</h3>
+            <p>Získání informací o vlastnické struktuře klienta a zjištění skutečného majitele klienta je nezbytné pro posouzení klienta z hlediska možného rizika ML/FT.</p>
+            <p>Povinná osoba zjišťuje příslušné vztahy až ke konkrétní fyzické osobě nebo více fyzickým osobám, které mají významný vliv na činnost daného klienta, a to i nepřímo (prostřednictvím jiných fyzických či právnických osob).</p>
+            <p>Postupy, kdy nelze zjistit skutečného majitele klienta z veřejně dostupných zdrojů</p>
+
+            <h3 id="4-3-prubezne-sledovani-obchodniho-vztahu-vcetne-prezkoumavani-obchodu-provadenych-v-prubehu-daneho-vztahu">4.3 Průběžné sledování obchodního vztahu včetně přezkoumávání obchodů prováděných v průběhu daného vztahu</h3>
+            <p>Povinná osoba musí získat informace potřebné pro provádění průběžného sledování obchodního vztahu a přezkoumávat obchody prováděné v průběhu daného vztahu za účelem zjištění, zda uskutečňované obchody jsou v souladu s tím, co povinná osoba ví o klientovi a jeho podnikatelském a rizikovém profilu. Povinná osoba musí být schopna posoudit, zda jednotlivé transakce skutečně souvisí například s podnikatelskou činností klienta nebo jeho obvyklými příjmy, zda odpovídají jeho běžné činnosti apod. Povinná osoba pro tyto účely využívá také místní a osobní znalosti klientů.</p>
+            <p>Povinná osoba musí porozumět účelu a smyslu uskutečňovaných obchodů klienta; k tomu může vyžadovat předložení veškeré dokumentace (obchodní smlouvy, faktury, dodací listy) a pořizovat si z nich kopie. Musí znát protistrany obchodu a od klienta opatřit takové informace, aby se nepodílela na porušení mezinárodních sankcí, tzn. protistranu (a osoby zúčastněné na její činnosti) je třeba kontrolovat vůči příslušným seznamům, obdobně i zboží nebo služby nesmí překročit příslušná omezení vyplývající z mezinárodních sankcí.</p>
+
+            <h3 id="4-4-prezkoumavani-zdroju-peneznich-prostredku-nebo-jineho-majetku-ktereho-se-obchod-nebo-obchodni-vztah-tyka">4.4 Přezkoumávání zdrojů peněžních prostředků nebo jiného majetku, kterého se obchod nebo obchodní vztah týká</h3>
+            <p>Je nutné přezkoumat (zjistit), z jakého zdroje pochází peněžní prostředky použité v obchodu nebo obchodním vztahu. V případě obchodního vztahu je tato část kontroly klienta prováděna zejména při jeho vzniku (získání tzv. vstupních informací, aby následně mohly být porovnávány podle bodu 4.3).</p>
+            <p>Pokud peněžní prostředky pocházejí např. z podnikatelské činnosti, je nutné specifikovat, o jakou podnikatelskou činnost se jedná.</p>
+            <p>Dalšími zdroji peněžních prostředků může být například dar, dědictví, mzda.</p>
+
+            <h3 id="4-5-dalsi-informace-k-provadeni-identifikace-a-kontroly-klienta">4.5 Další informace k provádění identifikace a kontroly klienta</h3>
+            <p>Klient poskytne povinné osobě informace, které jsou k provedení identifikace nezbytné. Rovněž v rámci kontroly se předpokládá aktivní spolupráce klienta, která může spočívat např. v předložení příslušných dokladů a prohlášení. Klient musí být informován, že získávané informace jsou vyžadované na základě AML zákona (povinnost mlčenlivosti se vztahuje až na případné podání OPO a šetření FAÚ).</p>
+            <p>V případě pochybností může povinná osoba od klienta vyžádat další podpůrné či upřesňující informace a při jejich nedostatku nebo nejasnostech povinná osoba obchod neuskuteční, případně podá OPO. Pokud klient součinnost odmítne, povinná osoba obchod neuskuteční. Jestliže pochybnosti o možném zneužití přetrvávají i po provedené kontrole, je to důvodem k podání OPO.</p>
+
+            <p><strong>Poznámka:</strong> Tento dokument je dlouhý; pokud chceš, můžu ti ho v dalším kroku ještě víc “překopat” do čisté struktury (tabulky zkratek, definice pojmů jako seznam, automatický TOC pro všechny sekce atd.).</p>
+          </div>
+        </article>
+
+        <!-- Side panel -->
+        <aside class="legal-card" aria-label="Rychlá navigace a údaje">
+          <h2 style="margin:0 0 6px; font-size:18px;">Rychlá navigace</h2>
+          <p class="legal-intro">
+            Skok na sekce dokumentu.
+          </p>
+
+          <div class="toc" aria-label="Obsah">
+            <a href="#dokument"><span>Dokument</span><small>↓</small></a>
+            <a href="#zkratky"><span>Seznam zkratek</span><small>1</small></a>
+            <a href="#pojmy"><span>Vymezení pojmů</span><small>2</small></a>
+            <a href="#kontakt"><span>Kontakt</span><small>✉️</small></a>
+          </div>
+
+          <div class="doc-meta" style="margin-top:14px;">
+            <div class="meta-row">
+              <div class="ico" aria-hidden="true">🏢</div>
+              <div>
+                <p class="lbl">Povinná osoba</p>
+                <p class="val">Vaše SRO, s.r.o.</p>
+              </div>
+            </div>
+
+            <div class="meta-row" id="kontakt">
+              <div class="ico" aria-hidden="true">☎️</div>
+              <div>
+                <p class="lbl">Kontakty</p>
+                <p class="val"><a href="kontakt.html">Přejít na kontaktní stránku</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <a class="btn primary" href="gdpr.html">GDPR</a>
+            <a class="btn ghost" href="oznamovatele.html">Oznamovatelé</a>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-brand">
+          <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+          <div>
+           
+            <div class="footer-muted">Ekonomické a účetní služby.</div>
+          </div>
+        </div>
+        <div class="footer-muted">© 2026 All rights reserved. Všechna práva vyhrazena VašeSRO</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="gdpr.html">Informace o zpracování osobních údajů</a>
+        <a href="oznamovatele.html">Základní informace podle zákona o ochraně oznamovatelů</a>
+        <a href="vnitri-zasady.html">Systém vnitřních zásad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- Optional: anchor smoothing -->
+  <script>
+    (function(){
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach(a => a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href");
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
+    })();
+  </script>
+</body>
+</html>

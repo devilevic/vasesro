@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="cs" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VašeSRO | Kontakty</title>
+  <meta name="description" content="Kontaktujte VašeSRO – účetní a ekonomické poradenství pro lékaře." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Your existing site CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="assets/img/site.webmanifest">
+  <meta name="theme-color" content="#0b1220">
+
+  <!-- Contact-page-only polish (safe to keep here, no need to touch styles.css) -->
+  <style>
+    .contact-wrap{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    @media (max-width: 980px){
+      .contact-wrap{ grid-template-columns: 1fr; }
+    }
+
+    .contact-card{
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+    }
+    html[data-theme="light"] .contact-card{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.10);
+    }
+
+    .contact-title{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+    .contact-list{
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .contact-item{
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    html[data-theme="light"] .contact-item{
+      background: rgba(10,15,30,.03);
+      border-color: rgba(10,15,30,.08);
+    }
+    .contact-ico{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(22,163,74,.20), rgba(6,182,212,.18));
+      border: 1px solid rgba(255,255,255,.10);
+      flex: 0 0 40px;
+    }
+    .contact-label{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 0;
+    }
+    .contact-value{
+      margin: 2px 0 0;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .contact-value a{
+      color: inherit;
+      text-decoration: none;
+    }
+    .contact-value a:hover{
+      text-decoration: underline;
+    }
+
+    /* ✅ Replaces "map-placeholder" with a real embedded map container */
+    .map-embed{
+      margin-top: 12px;
+      border-radius: var(--radius2);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      height: 260px;
+    }
+    html[data-theme="light"] .map-embed{
+      border-color: rgba(10,15,30,.16);
+      background: rgba(10,15,30,.02);
+    }
+    .map-embed iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .form-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 980px){
+      .form-grid{ grid-template-columns: 1fr; }
+    }
+
+    .field{
+      display: grid;
+      gap: 6px;
+    }
+    .field label{
+      font-size: 13px;
+      color: var(--muted2);
+      font-weight: 600;
+    }
+    .field input,
+    .field select,
+    .field textarea{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    html[data-theme="light"] .field input,
+    html[data-theme="light"] .field select,
+    html[data-theme="light"] .field textarea{
+      border-color: rgba(10,15,30,.12);
+      background: rgba(10,15,30,.04);
+    }
+    .field textarea{
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .form-row{
+      margin-top: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .check{
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      max-width: 68ch;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .check input{
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .form-status{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(6,182,212,.25);
+      background: rgba(6,182,212,.10);
+      color: var(--text);
+      display: none;
+    }
+    .form-status.is-visible{ display: block; }
+
+    .small-muted{
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="VašeSRO - Úvod">
+        <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+      </a>
+
+      <nav class="nav" aria-label="Hlavní navigace" data-nav>
+        <button class="theme-toggle nav-item" type="button" aria-label="Přepnout motiv" data-theme-toggle>
+          <span class="theme-emoji" aria-hidden="true" data-theme-emoji>☀️</span>
+        </button>
+
+        <a href="index.html" class="nav-link">Úvodní strana</a>
+        <a href="sluzby.html" class="nav-link">SLUŽBY</a>
+        <a href="reference.html" class="nav-link">Reference</a>
+        <a href="kontakt.html" class="nav-link is-active">Kontakty</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-label="Otevřít menu" aria-expanded="false" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero hero--inner">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="kicker">Kontakt</p>
+          <h1>Ozvěte se nám</h1>
+          <p class="lead">
+            Napište nám pár informací a ozveme se s návrhem dalšího postupu.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#formular">Napsat zprávu</a>
+            <a class="btn ghost" href="sluzby.html">Naše služby</a>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Ilustrační obrázek">
+          <div class="img-placeholder">
+            <img
+              src="assets/img/contact_us.jpeg"
+              alt="Založení SRO pro lékaře"
+              style="border-radius: 8px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="hero-glow" aria-hidden="true"></div>
+    </section>
+
+    <!-- Content -->
+    <section class="section">
+      <div class="container contact-wrap">
+        <!-- Contact details -->
+        <aside class="contact-card" aria-label="Kontaktní údaje">
+          <h2 class="contact-title">Kontaktní údaje</h2>
+
+          <ul class="contact-list">
+            <li class="contact-item">
+              <div class="contact-ico" aria-hidden="true">👤</div>
+              <div>
+                <p class="contact-label">Kontaktní osoba</p>
+                <p class="contact-value">Lucie Vaiglová, MSc</p>
+              </div>
+            </li>
+
+            <li class="contact-item">
+              <div class="contact-ico" aria-hidden="true">📞</div>
+              <div>
+                <p class="contact-label">Telefon</p>
+                <p class="contact-value"><a href="tel:+420602322633">+420 602 322 633</a></p>
+              </div>
+            </li>
+
+            <li class="contact-item">
+              <div class="contact-ico" aria-hidden="true">✉️</div>
+              <div>
+                <p class="contact-label">E-mail</p>
+                <p class="contact-value"><a href="mailto:vaiglova@vasesro.cz">vaiglova@vasesro.cz</a></p>
+              </div>
+            </li>
+
+            <li class="contact-item">
+              <div class="contact-ico" aria-hidden="true">📍</div>
+              <div>
+                <p class="contact-label">Adresa kanceláře</p>
+                <p class="contact-value">
+                  Na Střelnici 343/48<br>
+                  779 00 Olomouc
+                </p>
+                <div class="small-muted">(budova hotelu Best, 1. patro)</div>
+              </div>
+            </li>
+          </ul>
+
+          <!-- ✅ Real Google Maps iframe embed (replaces placeholder + removes tip text) -->
+          <div class="map-embed" aria-label="Mapa">
+            <iframe
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Na%20St%C5%99elnici%20343%2F48%2C%20779%2000%20Olomouc&output=embed"
+              title="Mapa: Na Střelnici 343/48, Olomouc">
+            </iframe>
+          </div>
+        </aside>
+
+        <!-- Form -->
+        <section class="contact-card" id="formular" aria-label="Kontaktní formulář">
+          <h2 class="contact-title">Kontaktní formulář</h2>
+          <p class="muted" style="margin-top:-2px;">
+            Vyplňte prosím údaje níže. Odpovíme co nejdříve.
+          </p>
+
+          <!--
+            This form is front-end only.
+            Replace action="" with your backend endpoint (or Formspree / Netlify forms / custom API).
+          -->
+          <form id="contactForm" action="#" method="post" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Jméno a příjmení *</label>
+                <input id="name" name="name" type="text" autocomplete="name" required placeholder="Např. MUDr. Jan Novák" />
+              </div>
+
+              <div class="field">
+                <label for="email">E-mail *</label>
+                <input id="email" name="email" type="email" autocomplete="email" required placeholder="např. jan.novak@email.cz" />
+              </div>
+
+              <div class="field">
+                <label for="phone">Telefon *</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="+420…" />
+              </div>
+
+              <div class="field">
+                <label for="service">O co máte zájem?</label>
+                <select id="service" name="service">
+                  <option value="">Vyberte možnost</option>
+                  <option>Vedení účetnictví a ekonomické poradenství</option>
+                  <option>Prodej/koupě lékařské praxe</option>
+                  <option>Převod praxe z OSVČ na SRO</option>
+                  <option>Služby v oblasti legislativy</option>
+                  <option>Jiné / nejsem si jistý</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="preferred">Preferovaný způsob kontaktu</label>
+                <select id="preferred" name="preferred">
+                  <option value="">Nezáleží</option>
+                  <option>E-mail</option>
+                  <option>Telefon</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="subject">Předmět</label>
+                <input id="subject" name="subject" type="text" placeholder="Např. Převod praxe na SRO" />
+              </div>
+            </div>
+
+            <div class="field" style="margin-top:12px;">
+              <label for="message">Zpráva *</label>
+              <textarea id="message" name="message" required placeholder="Stručně popište, s čím potřebujete pomoci…"></textarea>
+            </div>
+
+            <label class="check" for="consent">
+              <input id="consent" name="consent" type="checkbox" required />
+              <span>
+                Souhlasím se zpracováním osobních údajů za účelem vyřízení mého dotazu.
+                (Povinné)
+              </span>
+            </label>
+
+            <div class="form-row">
+              <button class="btn primary" type="submit">Odeslat zprávu</button>
+              <span class="small-muted">* Povinné pole</span>
+            </div>
+
+            <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+
+            <div class="small-muted">
+              Poznámka: Tento formulář je zatím “front-end only”. Pokud chcete, napojíme ho na:
+              Formspree / Netlify Forms / vlastní endpoint v Node/Express.
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2>Budeme se těšit na případnou spolupráci.</h2>
+            <p class="muted">Ozvěte se nám a navrhneme další postup.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn primary" href="mailto:vaiglova@vasesro.cz">Napsat e-mail</a>
+            <a class="btn ghost" href="tel:+420602322633">Zavolat</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-brand">
+          <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+          <div>
+
+            <div class="footer-muted">Ekonomické a účetní služby.</div>
+          </div>
+        </div>
+        <div class="footer-muted"><br>© 2026 All rights reserved. Všechna práva vyhrazena VašeSRO | Web &amp; design: <a href="https://www.semlin.eu" target="_blank">semlin.eu</a></div>
+      </div>
+
+      <div class="footer-links">
+        <a href="gdpr.html">Informace o zpracování osobních údajů</a>
+        <a href="oznamovatele.html">Základní informace podle zákona o ochraně oznamovatelů</a>
+        <a href="vnitri-zasady.html">Systém vnitřních zásad</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Your existing site JS (mobile nav + theme toggle) -->
+  <script src="script.js"></script>
+
+  <!-- Contact form UX (safe, no backend required) -->
+  <script>
+    (() => {
+      const form = document.getElementById("contactForm");
+      const status = document.getElementById("formStatus");
+
+      if (!form || !status) return;
+
+      const show = (msg, ok=true) => {
+        status.textContent = msg;
+        status.style.borderColor = ok ? "rgba(22,163,74,.35)" : "rgba(239,68,68,.35)";
+        status.style.background = ok ? "rgba(22,163,74,.10)" : "rgba(239,68,68,.10)";
+        status.classList.add("is-visible");
+      };
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = form.querySelector("#name");
+        const email = form.querySelector("#email");
+        const phone = form.querySelector("#phone");
+        const message = form.querySelector("#message");
+        const consent = form.querySelector("#consent");
+
+        // Basic validation
+        if (!name.value.trim()) return show("Prosím vyplňte jméno a příjmení.", false);
+        if (!email.value.trim()) return show("Prosím vyplňte e-mail.", false);
+        if (!phone.value.trim()) return show("Prosím vyplňte telefon.", false);
+        if (!message.value.trim()) return show("Prosím napište zprávu.", false);
+        if (!consent.checked) return show("Prosím potvrďte souhlas se zpracováním osobních údajů.", false);
+
+        // Front-end only success message
+        show("Děkujeme! Zpráva je připravena k odeslání. (Pro reálné odeslání je potřeba napojit backend/form službu.)", true);
+
+        // Optional: reset fields after success
+        // form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>
