@@ -1,57 +1,44 @@
 const path = require("path");
+const fs = require("fs");
 const express = require("express");
 const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
-const { Pool } = require("pg");
 
 const app = express();
-
-// Helmet CSP off to keep embeds/simple static content easy
 app.use(helmet({ contentSecurityPolicy: false }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ---- Postgres ----
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
-});
-
-// Create table once
-async function initDb() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS contacts (
-      id SERIAL PRIMARY KEY,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      name TEXT NOT NULL,
-      email TEXT NOT NULL,
-      phone TEXT NOT NULL,
-      service TEXT,
-      preferred TEXT,
-      subject TEXT,
-      message TEXT NOT NULL,
-      page TEXT,
-      user_agent TEXT,
-      ip TEXT
-    );
-  `);
-}
-initDb().catch(err => {
-  console.error("DB init failed:", err);
-  process.exit(1);
-});
-
-// ---- Static site ----
-// IMPORTANT: This serves your existing HTML/CSS/assets exactly as before.
+// Serve your existing static site (index.html, styles.css, assets/, etc.)
 app.use(express.static(path.join(__dirname)));
 
-// ---- Contact API ----
-app.post("/api/contact", async (req, res) => {
+// Persistent storage directory (Render Disk mount path will be /var/data)
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
+const CONTACTS_FILE = path.join(DATA_DIR, "contacts.json");
+
+function ensureStorage() {
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (!fs.existsSync(CONTACTS_FILE)) fs.writeFileSync(CONTACTS_FILE, "[]", "utf8");
+}
+
+function readContacts() {
+  ensureStorage();
   try {
-    const {
-      name, email, phone, service, preferred, subject, message, page
-    } = req.body;
+    return JSON.parse(fs.readFileSync(CONTACTS_FILE, "utf8"));
+  } catch {
+    return [];
+  }
+}
+
+function writeContacts(list) {
+  ensureStorage();
+  fs.writeFileSync(CONTACTS_FILE, JSON.stringify(list, null, 2), "utf8");
+}
+
+// ---- Contact API ----
+app.post("/api/contact", (req, res) => {
+  try {
+    const { name, email, phone, service, preferred, subject, message, page } = req.body;
 
     if (!name || !email || !phone || !message) {
       return res.status(400).json({ ok: false, error: "Missing required fields." });
@@ -63,11 +50,24 @@ app.post("/api/contact", async (req, res) => {
       req.socket.remoteAddress ||
       "";
 
-    await pool.query(
-      `INSERT INTO contacts (name,email,phone,service,preferred,subject,message,page,user_agent,ip)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
-      [name, email, phone, service || null, preferred || null, subject || null, message, page || null, ua, ip]
-    );
+    const list = readContacts();
+    const entry = {
+      id: Date.now(), // simple unique id
+      created_at: new Date().toISOString(),
+      name: String(name).trim(),
+      email: String(email).trim(),
+      phone: String(phone).trim(),
+      service: service ? String(service) : "",
+      preferred: preferred ? String(preferred) : "",
+      subject: subject ? String(subject) : "",
+      message: String(message).trim(),
+      page: page ? String(page) : "",
+      user_agent: ua,
+      ip
+    };
+
+    list.unshift(entry);
+    writeContacts(list);
 
     res.json({ ok: true });
   } catch (e) {
@@ -77,9 +77,6 @@ app.post("/api/contact", async (req, res) => {
 });
 
 // ---- Admin auth (Basic Auth) ----
-// Env vars needed:
-// ADMIN_USER
-// ADMIN_PASS_HASH  (bcrypt hash)
 function requireAdmin(req, res, next) {
   const header = req.headers.authorization || "";
   if (!header.startsWith("Basic ")) {
@@ -110,19 +107,9 @@ app.get("/admin", requireAdmin, (req, res) => {
 });
 
 // Admin API
-app.get("/api/admin/contacts", requireAdmin, async (req, res) => {
-  try {
-    const { rows } = await pool.query(
-      `SELECT id, created_at, name, email, phone, service, preferred, subject, message, page
-       FROM contacts
-       ORDER BY created_at DESC
-       LIMIT 500`
-    );
-    res.json({ ok: true, rows });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ ok: false });
-  }
+app.get("/api/admin/contacts", requireAdmin, (req, res) => {
+  const list = readContacts();
+  res.json({ ok: true, rows: list.slice(0, 500) });
 });
 
 const port = process.env.PORT || 3000;
