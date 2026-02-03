@@ -35,60 +35,10 @@ function writeContacts(list) {
   fs.writeFileSync(CONTACTS_FILE, JSON.stringify(list, null, 2), "utf8");
 }
 
-// ---- Contact API ----
-app.post("/api/admin/contacts/:id/toggle", requireAdmin, (req, res) => {
-  const id = Number(req.params.id);
-  if (!id) return res.status(400).json({ ok: false });
-
-  const list = readContacts();
-  const idx = list.findIndex(x => Number(x.id) === id);
-  if (idx === -1) return res.status(404).json({ ok: false });
-
-  const cur = list[idx];
-  const nextHandled = !Boolean(cur.handled);
-
-  cur.handled = nextHandled;
-  cur.handled_at = nextHandled ? new Date().toISOString() : null;
-
-  writeContacts(list);
-  res.json({ ok: true, handled: cur.handled, handled_at: cur.handled_at });
-});
-
-    const ua = req.get("user-agent") || "";
-    const ip =
-      (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
-      req.socket.remoteAddress ||
-      "";
-
-    const list = readContacts();
-    const entry = {
-      id: Date.now(), // simple unique id
-      created_at: new Date().toISOString(),
-      name: String(name).trim(),
-      email: String(email).trim(),
-      phone: String(phone).trim(),
-      service: service ? String(service) : "",
-      preferred: preferred ? String(preferred) : "",
-      subject: subject ? String(subject) : "",
-      message: String(message).trim(),
-      page: page ? String(page) : "",
-      user_agent: ua,
-      ip
-      handled: false,
-      handled_at: null,
-    };
-
-    list.unshift(entry);
-    writeContacts(list);
-
-    res.json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ ok: false, error: "Server error" });
-  }
-});
-
 // ---- Admin auth (Basic Auth) ----
+// Env vars required:
+// ADMIN_USER
+// ADMIN_PASS_HASH (bcrypt hash)
 function requireAdmin(req, res, next) {
   const header = req.headers.authorization || "";
   if (!header.startsWith("Basic ")) {
@@ -113,11 +63,57 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// Admin dashboard page
+// ---- Contact API ----
+app.post("/api/contact", (req, res) => {
+  try {
+    const { name, email, phone, service, preferred, subject, message, page } = req.body;
+
+    if (!name || !email || !phone || !message) {
+      return res.status(400).json({ ok: false, error: "Missing required fields." });
+    }
+
+    const ua = req.get("user-agent") || "";
+    const ip =
+      (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim() ||
+      req.socket.remoteAddress ||
+      "";
+
+    const list = readContacts();
+
+    const entry = {
+      id: Date.now(), // simple unique id
+      created_at: new Date().toISOString(),
+      name: String(name).trim(),
+      email: String(email).trim(),
+      phone: String(phone).trim(),
+      service: service ? String(service) : "",
+      preferred: preferred ? String(preferred) : "",
+      subject: subject ? String(subject) : "",
+      message: String(message).trim(),
+      page: page ? String(page) : "",
+      user_agent: ua,
+      ip: ip,
+      handled: false,
+      handled_at: null
+    };
+
+    // newest first in file too (nice, but we also sort when reading)
+    list.unshift(entry);
+    writeContacts(list);
+
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ ok: false, error: "Server error" });
+  }
+});
+
+// ---- Admin dashboard page ----
 app.get("/admin", requireAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, "admin.html"));
 });
 
+// ---- Admin API: list contacts (newest first) ----
 app.get("/api/admin/contacts", requireAdmin, (req, res) => {
   const list = readContacts();
 
@@ -131,6 +127,25 @@ app.get("/api/admin/contacts", requireAdmin, (req, res) => {
   list.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   res.json({ ok: true, rows: list.slice(0, 500) });
+});
+
+// ---- Admin API: toggle "vyřízené" ----
+app.post("/api/admin/contacts/:id/toggle", requireAdmin, (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ ok: false });
+
+  const list = readContacts();
+  const idx = list.findIndex(x => Number(x.id) === id);
+  if (idx === -1) return res.status(404).json({ ok: false });
+
+  const cur = list[idx];
+  const nextHandled = !Boolean(cur.handled);
+
+  cur.handled = nextHandled;
+  cur.handled_at = nextHandled ? new Date().toISOString() : null;
+
+  writeContacts(list);
+  res.json({ ok: true, handled: cur.handled, handled_at: cur.handled_at });
 });
 
 const port = process.env.PORT || 3000;
