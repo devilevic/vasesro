@@ -57,6 +57,7 @@
           <table id="tbl">
             <thead>
               <tr>
+                <th>Vyřízené</th>
                 <th>Datum</th>
                 <th>Jméno</th>
                 <th>Kontakt</th>
@@ -77,8 +78,10 @@
     async function loadContacts(){
       const status = document.getElementById("status");
       status.textContent = "Načítám…";
+
       const r = await fetch("/api/admin/contacts");
       const data = await r.json();
+
       if(!data.ok){
         status.textContent = "Nepodařilo se načíst data.";
         return;
@@ -91,29 +94,61 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>
+            <label class="small" style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" class="handledBox" data-id="${row.id}" ${row.handled ? "checked" : ""}>
+              <span>${row.handled ? "ano" : "ne"}</span>
+            </label>
+          </td>
+
+          <td>
             <div>${new Date(row.created_at).toLocaleString()}</div>
             <div class="small">#${row.id}</div>
           </td>
-          <td>${esc(row.name)}</td>
+
+          <td>${escapeHtml(row.name)}</td>
+
           <td>
-            <div><a href="mailto:${escAttr(row.email)}">${esc(row.email)}</a></div>
-            <div><a href="tel:${escAttr(row.phone)}">${esc(row.phone)}</a></div>
+            <div><a href="mailto:${escapeAttr(row.email)}">${escapeHtml(row.email)}</a></div>
+            <div><a href="tel:${escapeAttr(row.phone)}">${escapeHtml(row.phone)}</a></div>
           </td>
+
           <td class="small">
-            <div><strong>Služba:</strong> ${esc(row.service || "-")}</div>
-            <div><strong>Preferuje:</strong> ${esc(row.preferred || "-")}</div>
-            <div><strong>Předmět:</strong> ${esc(row.subject || "-")}</div>
-            <div><strong>Stránka:</strong> ${esc(row.page || "-")}</div>
+            <div><strong>Služba:</strong> ${escapeHtml(row.service || "-")}</div>
+            <div><strong>Preferuje:</strong> ${escapeHtml(row.preferred || "-")}</div>
+            <div><strong>Předmět:</strong> ${escapeHtml(row.subject || "-")}</div>
+            <div><strong>Stránka:</strong> ${escapeHtml(row.page || "-")}</div>
           </td>
-          <td class="msg">${esc(row.message || "")}</td>
+
+          <td class="msg">${escapeHtml(row.message || "")}</td>
         `;
         tbody.appendChild(tr);
       }
 
+      // ✅ This was the missing part: wire up checkbox -> backend toggle
+      tbody.querySelectorAll(".handledBox").forEach(cb => {
+        cb.addEventListener("change", async (e) => {
+          const id = e.target.getAttribute("data-id");
+          try {
+            const resp = await fetch(`/api/admin/contacts/${id}/toggle`, { method: "POST" });
+            const out = await resp.json();
+            if (!out.ok) throw new Error("toggle failed");
+
+            // Update label text ("ano"/"ne") next to the checkbox
+            const label = e.target.closest("label");
+            const span = label ? label.querySelector("span") : null;
+            if (span) span.textContent = e.target.checked ? "ano" : "ne";
+          } catch (err) {
+            // revert checkbox if request fails
+            e.target.checked = !e.target.checked;
+            alert("Nepodařilo se uložit změnu. Zkuste to prosím znovu.");
+          }
+        });
+      });
+
       status.textContent = `Načteno: ${data.rows.length} záznamů`;
     }
 
-    function esc(s){
+    function escapeHtml(s){
       return (s ?? "").toString()
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
@@ -121,7 +156,7 @@
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
     }
-    function escAttr(s){ return esc(s); }
+    function escapeAttr(s){ return escapeHtml(s); }
 
     document.getElementById("refreshBtn").addEventListener("click", loadContacts);
     loadContacts();
