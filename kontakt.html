@@ -304,7 +304,7 @@
             </li>
           </ul>
 
-          <!-- ✅ Real Google Maps iframe embed (replaces placeholder + removes tip text) -->
+          <!-- ✅ Real Google Maps iframe embed -->
           <div class="map-embed" aria-label="Mapa">
             <iframe
               loading="lazy"
@@ -322,10 +322,6 @@
             Vyplňte prosím údaje níže. Odpovíme co nejdříve.
           </p>
 
-          <!--
-            This form is front-end only.
-            Replace action="" with your backend endpoint (or Formspree / Netlify forms / custom API).
-          -->
           <form id="contactForm" action="/api/contact" method="post" novalidate>
             <div class="form-grid">
               <div class="field">
@@ -423,7 +419,6 @@
         <div class="footer-brand">
           <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
           <div>
-
             <div class="footer-muted">Ekonomické a účetní služby.</div>
           </div>
         </div>
@@ -441,7 +436,7 @@
   <!-- Your existing site JS (mobile nav + theme toggle) -->
   <script src="script.js"></script>
 
-  <!-- Contact form UX (safe, no backend required) -->
+  <!-- Contact form UX (submits via fetch; keeps action="/api/contact" as fallback) -->
   <script>
     (() => {
       const form = document.getElementById("contactForm");
@@ -456,85 +451,50 @@
         status.classList.add("is-visible");
       };
 
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const name = form.querySelector("#name");
         const email = form.querySelector("#email");
         const phone = form.querySelector("#phone");
+        const service = form.querySelector("#service");
+        const preferred = form.querySelector("#preferred");
+        const subject = form.querySelector("#subject");
         const message = form.querySelector("#message");
         const consent = form.querySelector("#consent");
 
-        // Basic validation
-        if (!name.value.trim()) return show("Prosím vyplňte jméno a příjmení.", false);
-        if (!email.value.trim()) return show("Prosím vyplňte e-mail.", false);
-        if (!phone.value.trim()) return show("Prosím vyplňte telefon.", false);
-        if (!message.value.trim()) return show("Prosím napište zprávu.", false);
-        if (!consent.checked) return show("Prosím potvrďte souhlas se zpracováním osobních údajů.", false);
+        if (!name?.value.trim()) return show("Prosím vyplňte jméno a příjmení.", false);
+        if (!email?.value.trim()) return show("Prosím vyplňte e-mail.", false);
+        if (!phone?.value.trim()) return show("Prosím vyplňte telefon.", false);
+        if (!message?.value.trim()) return show("Prosím napište zprávu.", false);
+        if (!consent?.checked) return show("Prosím potvrďte souhlas se zpracováním osobních údajů.", false);
 
-        <script>
-(() => {
-  const form = document.getElementById("contactForm");
-  const status = document.getElementById("formStatus");
+        const payload = {
+          name: name.value.trim(),
+          email: email.value.trim(),
+          phone: phone.value.trim(),
+          service: service?.value || "",
+          preferred: preferred?.value || "",
+          subject: subject?.value?.trim() || "",
+          message: message.value.trim(),
+          page: location.pathname
+        };
 
-  if (!form || !status) return;
+        try {
+          const r = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
 
-  const show = (msg, ok=true) => {
-    status.textContent = msg;
-    status.style.borderColor = ok ? "rgba(22,163,74,.35)" : "rgba(239,68,68,.35)";
-    status.style.background = ok ? "rgba(22,163,74,.10)" : "rgba(239,68,68,.10)";
-    status.classList.add("is-visible");
-  };
+          const data = await r.json();
+          if (!data.ok) return show("Odeslání se nezdařilo. Zkuste to prosím znovu.", false);
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const name = form.querySelector("#name");
-    const email = form.querySelector("#email");
-    const phone = form.querySelector("#phone");
-    const service = form.querySelector("#service");
-    const preferred = form.querySelector("#preferred");
-    const subject = form.querySelector("#subject");
-    const message = form.querySelector("#message");
-    const consent = form.querySelector("#consent");
-
-    if (!name.value.trim()) return show("Prosím vyplňte jméno a příjmení.", false);
-    if (!email.value.trim()) return show("Prosím vyplňte e-mail.", false);
-    if (!phone.value.trim()) return show("Prosím vyplňte telefon.", false);
-    if (!message.value.trim()) return show("Prosím napište zprávu.", false);
-    if (!consent.checked) return show("Prosím potvrďte souhlas se zpracováním osobních údajů.", false);
-
-    const payload = {
-      name: name.value.trim(),
-      email: email.value.trim(),
-      phone: phone.value.trim(),
-      service: service?.value || "",
-      preferred: preferred?.value || "",
-      subject: subject?.value?.trim() || "",
-      message: message.value.trim(),
-      page: location.pathname
-    };
-
-    try {
-      const r = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const data = await r.json();
-      if (!data.ok) return show("Odeslání se nezdařilo. Zkuste to prosím znovu.", false);
-
-      show("Děkujeme! Zpráva byla odeslána.", true);
-      form.reset();
-    } catch (err) {
-      show("Chyba připojení. Zkuste to prosím znovu.", false);
-    }
-  });
-})();
-</script>
-
-        // Optional: reset fields after success
-        // form.reset();
+          show("Děkujeme! Zpráva byla odeslána.", true);
+          form.reset();
+        } catch (err) {
+          show("Chyba připojení. Zkuste to prosím znovu.", false);
+        }
       });
     })();
   </script>
