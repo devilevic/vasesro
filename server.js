@@ -4,10 +4,11 @@ const helmet = require("helmet");
 const bcrypt = require("bcryptjs");
 const { Pool } = require("pg");
 
-require("dotenv").config();
-
 const app = express();
-app.use(helmet({ contentSecurityPolicy: false })); // keeps things easy with google maps iframe etc.
+
+// Helmet CSP off to keep embeds/simple static content easy
+app.use(helmet({ contentSecurityPolicy: false }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,7 +18,7 @@ const pool = new Pool({
   ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
 });
 
-// Create table if it doesn't exist
+// Create table once
 async function initDb() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS contacts (
@@ -42,7 +43,8 @@ initDb().catch(err => {
 });
 
 // ---- Static site ----
-app.use(express.static(path.join(__dirname))); // serves index.html, styles.css, assets/, etc.
+// IMPORTANT: This serves your existing HTML/CSS/assets exactly as before.
+app.use(express.static(path.join(__dirname)));
 
 // ---- Contact API ----
 app.post("/api/contact", async (req, res) => {
@@ -74,16 +76,17 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// ---- Basic auth (simple) ----
-// Set env vars:
-// ADMIN_USER=...
-// ADMIN_PASS_HASH=... (bcrypt hash)
+// ---- Admin auth (Basic Auth) ----
+// Env vars needed:
+// ADMIN_USER
+// ADMIN_PASS_HASH  (bcrypt hash)
 function requireAdmin(req, res, next) {
   const header = req.headers.authorization || "";
   if (!header.startsWith("Basic ")) {
     res.setHeader("WWW-Authenticate", 'Basic realm="Admin"');
     return res.status(401).send("Auth required.");
   }
+
   const decoded = Buffer.from(header.slice(6), "base64").toString("utf8");
   const [user, pass] = decoded.split(":");
 
@@ -91,11 +94,13 @@ function requireAdmin(req, res, next) {
     res.setHeader("WWW-Authenticate", 'Basic realm="Admin"');
     return res.status(401).send("Auth required.");
   }
+
   const ok = bcrypt.compareSync(pass || "", process.env.ADMIN_PASS_HASH || "");
   if (!ok) {
     res.setHeader("WWW-Authenticate", 'Basic realm="Admin"');
     return res.status(401).send("Auth required.");
   }
+
   next();
 }
 
@@ -118,12 +123,6 @@ app.get("/api/admin/contacts", requireAdmin, async (req, res) => {
     console.error(e);
     res.status(500).json({ ok: false });
   }
-});
-
-// Make sure /admin works nicely, and all other routes behave like static pages:
-app.get("*", (req, res) => {
-  // If you want SPA behavior, you can route to index.html; otherwise just 404:
-  res.status(404).sendFile(path.join(__dirname, "index.html"));
 });
 
 const port = process.env.PORT || 3000;

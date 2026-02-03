@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VašeSRO | Admin</title>
+  <meta name="robots" content="noindex,nofollow" />
   <link rel="stylesheet" href="styles.css" />
+
   <style>
     .admin-wrap{ padding: 34px 0; }
     .card{
@@ -22,14 +24,16 @@
     th,td{ text-align:left; padding: 10px; border-bottom: 1px solid rgba(255,255,255,.10); vertical-align: top; }
     html[data-theme="light"] th, html[data-theme="light"] td{ border-bottom-color: rgba(10,15,30,.10); }
     .small{ color: var(--muted2); font-size: 12px; }
-    .msg{ max-width: 520px; white-space: pre-wrap; }
+    .msg{ max-width: 560px; white-space: pre-wrap; }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html"><div class="logo-placeholder">LOGO</div></a>
-      <nav class="nav">
+      <a class="brand" href="index.html" aria-label="VašeSRO">
+        <img class="brand-logo" src="assets/img/logo_vasesro.png" alt="VašeSRO" />
+      </a>
+      <nav class="nav" aria-label="Hlavní navigace">
         <a href="index.html" class="nav-link">Úvodní strana</a>
         <a href="sluzby.html" class="nav-link">SLUŽBY</a>
         <a href="reference.html" class="nav-link">Reference</a>
@@ -46,7 +50,7 @@
             <h1 style="margin:0;">Admin dashboard</h1>
             <div class="small">Zprávy z kontaktního formuláře</div>
           </div>
-          <button class="btn primary" id="refreshBtn">Obnovit</button>
+          <button class="btn primary" id="refreshBtn" type="button">Obnovit</button>
         </div>
 
         <div style="overflow:auto; margin-top: 14px;">
@@ -72,15 +76,17 @@
   <script>
     async function loadContacts(){
       const status = document.getElementById("status");
-      status.textContent = "Načítám...";
+      status.textContent = "Načítám…";
       const r = await fetch("/api/admin/contacts");
       const data = await r.json();
       if(!data.ok){
         status.textContent = "Nepodařilo se načíst data.";
         return;
       }
+
       const tbody = document.querySelector("#tbl tbody");
       tbody.innerHTML = "";
+
       for(const row of data.rows){
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -88,25 +94,26 @@
             <div>${new Date(row.created_at).toLocaleString()}</div>
             <div class="small">#${row.id}</div>
           </td>
-          <td>${escapeHtml(row.name)}</td>
+          <td>${esc(row.name)}</td>
           <td>
-            <div><a href="mailto:${escapeAttr(row.email)}">${escapeHtml(row.email)}</a></div>
-            <div><a href="tel:${escapeAttr(row.phone)}">${escapeHtml(row.phone)}</a></div>
+            <div><a href="mailto:${escAttr(row.email)}">${esc(row.email)}</a></div>
+            <div><a href="tel:${escAttr(row.phone)}">${esc(row.phone)}</a></div>
           </td>
           <td class="small">
-            <div><strong>Služba:</strong> ${escapeHtml(row.service || "-")}</div>
-            <div><strong>Preferuje:</strong> ${escapeHtml(row.preferred || "-")}</div>
-            <div><strong>Předmět:</strong> ${escapeHtml(row.subject || "-")}</div>
-            <div><strong>Stránka:</strong> ${escapeHtml(row.page || "-")}</div>
+            <div><strong>Služba:</strong> ${esc(row.service || "-")}</div>
+            <div><strong>Preferuje:</strong> ${esc(row.preferred || "-")}</div>
+            <div><strong>Předmět:</strong> ${esc(row.subject || "-")}</div>
+            <div><strong>Stránka:</strong> ${esc(row.page || "-")}</div>
           </td>
-          <td class="msg">${escapeHtml(row.message || "")}</td>
+          <td class="msg">${esc(row.message || "")}</td>
         `;
         tbody.appendChild(tr);
       }
+
       status.textContent = `Načteno: ${data.rows.length} záznamů`;
     }
 
-    function escapeHtml(s){
+    function esc(s){
       return (s ?? "").toString()
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
@@ -114,7 +121,7 @@
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
     }
-    function escapeAttr(s){ return escapeHtml(s); }
+    function escAttr(s){ return esc(s); }
 
     document.getElementById("refreshBtn").addEventListener("click", loadContacts);
     loadContacts();
